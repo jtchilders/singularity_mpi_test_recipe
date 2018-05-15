@@ -6,6 +6,10 @@ From: centos
    mkdir ${SINGULARITY_ROOTFS}/myapp
    cp pi.c ${SINGULARITY_ROOTFS}/myapp/
 
+%environment
+   PATH=$PATH:/myapp/mpich-3.2.1/install/bin
+   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/myapp/mpich-3.2.1/install/lib
+
 %post
    yum update -y
    yum groupinstall -y "Development Tools"
@@ -14,7 +18,7 @@ From: centos
    yum install -y wget
    cd /myapp
    # install MPICH
-   wget http://www.mpich.org/static/downloads/3.2.1/mpich-3.2.1.tar.gz
+   wget -q http://www.mpich.org/static/downloads/3.2.1/mpich-3.2.1.tar.gz
    tar xf mpich-3.2.1.tar.gz
    cd mpich-3.2.1
    # disable the addition of the RPATH to compiled executables
@@ -23,8 +27,8 @@ From: centos
    ./configure --prefix=$PWD/install --disable-wrapper-rpath
    make -j 4 install
    # add to local environment to build pi.c
-   export PATH=$PATH:$PWD/install/bin
-   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/install/lib
+   # export PATH=$PATH:$PWD/install/bin
+   # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/install/lib
    cd ..
    mpicc -o pi -fPIC pi.c
 
