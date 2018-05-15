@@ -5,7 +5,6 @@ From: centos
    echo ${SINGULARITY_ROOTFS}
    mkdir ${SINGULARITY_ROOTFS}/myapp
    cp pi.c ${SINGULARITY_ROOTFS}/myapp/
-   cp build.sh ${SINGULARITY_ROOTFS}/myapp/
 
 %post
    yum update -y
