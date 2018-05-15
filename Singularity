@@ -14,7 +14,20 @@ From: centos
    yum install -y gcc-c++
    yum install -y wget
    cd /myapp
-   ./build.sh
+   # install MPICH
+   wget http://www.mpich.org/static/downloads/3.2.1/mpich-3.2.1.tar.gz
+   tar xf mpich-3.2.1.tar.gz
+   cd mpich-3.2.1
+   # disable the addition of the RPATH to compiled executables
+   # this allows us to override the MPI libraries to use those
+   # found via LD_LIBRARY_PATH
+   ./configure --prefix=$PWD/install --disable-wrapper-rpath
+   make -j 4 install
+   # add to local environment to build pi.c
+   export PATH=$PATH:$PWD/install/bin
+   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/install/lib
+   cd ..
+   mpicc -o pi -fPIC pi.c
 
 %runscript
    /myapp/pi
