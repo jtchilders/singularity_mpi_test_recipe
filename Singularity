@@ -4,10 +4,8 @@ From: centos
 %setup
    echo ${SINGULARITY_ROOTFS}
    mkdir ${SINGULARITY_ROOTFS}/myapp
-
-%files
-   pi.c /myapp/
-   build.sh /myapp/
+   cp pi.c ${SINGULARITY_ROOTFS}/myapp/
+   cp build.sh ${SINGULARITY_ROOTFS}/myapp/
 
 %post
    yum update -y
