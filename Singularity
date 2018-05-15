@@ -17,7 +17,6 @@ From: centos
    yum install -y wget
    cd /myapp
    ./build.sh
-   
 
 %runscript
    /myapp/pi
