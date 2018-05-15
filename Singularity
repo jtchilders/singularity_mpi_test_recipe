@@ -6,9 +6,6 @@ From: centos
    mkdir ${SINGULARITY_ROOTFS}/myapp
    cp pi.c ${SINGULARITY_ROOTFS}/myapp/
 
-%environment
-   PATH=$PATH:/myapp/mpich-3.2.1/install/bin
-   LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/myapp/mpich-3.2.1/install/lib
 
 %post
    yum update -y
@@ -27,8 +24,9 @@ From: centos
    ./configure --prefix=$PWD/install --disable-wrapper-rpath
    make -j 4 install
    # add to local environment to build pi.c
-   # export PATH=$PATH:$PWD/install/bin
-   # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/install/lib
+   export PATH=$PATH:$(pwd)/install/bin
+   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/install/lib
+   env | sort
    cd ..
    mpicc -o pi -fPIC pi.c
 
