@@ -1,5 +1,5 @@
 Bootstrap: shub
-From: jchilders/singularity_mpi_test_recipe:latest
+From: jtchilders/singularity_mpi_test_recipe:latest
 
 %setup
    # make directory for test MPI program
