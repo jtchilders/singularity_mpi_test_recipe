@@ -11,9 +11,6 @@ From: centos
    wget -q http://www.mpich.org/static/downloads/3.2.1/mpich-3.2.1.tar.gz
    tar xf mpich-3.2.1.tar.gz --strip-components=1
 
-
-
-
 %post
    # install development tools
    yum update -y
@@ -34,6 +31,10 @@ From: centos
    env | sort
    cd /mpitestapp
    mpicc -o pi -fPIC pi.c
+
+%environment
+   PATH=/mpich/install/bin:$PATH
+   LD_LIBRARY_PATH=/mpich/install/lib:$LD_LIBRARY_PATH
 
 %runscript
    /mpitestapp/pi
