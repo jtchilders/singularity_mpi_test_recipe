@@ -26,10 +26,9 @@ From: centos
    # found via LD_LIBRARY_PATH
    ./configure --prefix=$PWD/install --disable-wrapper-rpath --disable-wrapper-runpath
    make -j 4 install
-	
-	cd /mpitestapp
-   mpicc -o pi -fPIC pi.c
 
+   cd /mpitestapp
+   mpicc -o pi -fPIC pi.c
 
 %environment
    PATH=/openmpi/install/bin:$PATH
