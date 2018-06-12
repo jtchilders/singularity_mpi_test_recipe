@@ -38,4 +38,3 @@ From: centos
 
 %runscript
    /mpitestapp/pi
-
