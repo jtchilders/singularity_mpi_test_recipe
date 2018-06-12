@@ -1,0 +1,40 @@
+Bootstrap: docker
+From: centos
+
+%setup
+   # make directory for test MPI program
+   mkdir ${SINGULARITY_ROOTFS}/mpitestapp
+   # copy test file into directory
+   cp pi.c ${SINGULARITY_ROOTFS}/mpitestapp/
+
+%post
+   env | sort
+   # install development tools
+   yum update -y
+   yum groupinstall -y "Development Tools"
+   yum install -y gcc
+   yum install -y gcc-c++
+   yum install -y wget
+
+   # build openmpi
+   mkdir /openmpi
+   cd /openmpi
+   wget https://download.open-mpi.org/release/open-mpi/v3.1/openmpi-3.1.0.tar.gz
+   tar xf openmpi-3.1.0.tar.gz --strip-components=1
+   # disable the addition of the RPATH to compiled executables
+   # this allows us to override the MPI libraries to use those
+   # found via LD_LIBRARY_PATH
+   ./configure --prefix=$PWD/install --disable-wrapper-rpath --disable-wrapper-runpath
+   make -j 4 install
+	
+	cd /mpitestapp
+   mpicc -o pi -fPIC pi.c
+
+
+%environment
+   PATH=/openmpi/install/bin:$PATH
+	LD_LIBRARY_PATH=/openmpi/install/lib:$LD_LIBRARY_PATH
+
+%runscript
+   /mpitestapp/pi
+
