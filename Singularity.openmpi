@@ -14,7 +14,7 @@ From: centos
    yum groupinstall -y "Development Tools"
    yum install -y gcc
    yum install -y gcc-c++
-   yum install -y wget
+   yum install -y wget 
 
    # build openmpi
    mkdir /openmpi
@@ -26,13 +26,11 @@ From: centos
    # found via LD_LIBRARY_PATH
    ./configure --prefix=$PWD/install --disable-wrapper-rpath --disable-wrapper-runpath
    make -j 4 install
+   export LD_LIBRARY_PATH=$PWD/install/lib:$LD_LIBRARY_PATH
+   export PATH=$PWD/install/bin:$PATH
 
    cd /mpitestapp
    mpicc -o pi -fPIC pi.c
-
-%environment
-   export PATH=/openmpi/install/bin:$PATH
-   export LD_LIBRARY_PATH=/openmpi/install/lib:/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:/lib64:/lib
 
 %runscript
    /mpitestapp/pi
