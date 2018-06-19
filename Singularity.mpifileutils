@@ -1,8 +1,5 @@
-Bootstrap: localimage
-From: mpich.simg
-
-%setup
-   cp configure_libcircle ${SINGULARITY_ROOTFS}/
+Bootstrap: shub
+From: jtchilders/singularity_mpi_test_recipe:mpich
 
 %post
    # need wget
@@ -13,8 +10,6 @@ From: mpich.simg
    export PKG_CONFIG_PATH=/lib64/pkgconfig:/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/lib/pkgconfig
    export libcircle_CFLAGS='-I/usr/include'
    export libcircle_LIBS='-L/usr/lib64 -L/usr/lib -lcircle'
-   # export CFLAGS='-I/usr/include'
-   # export CXXFLAGS='-I/usr/include'
    env
    
    # build mpifileutils dependencies
@@ -22,7 +17,7 @@ From: mpich.simg
    mkdir /mpifileutils
    cd /mpifileutils
    git clone https://github.com/hpc/mpifileutils.git .
-   # git checkout tags/v0.7
+   
    
    echo creating dependency directory
    mkdir deps
@@ -55,11 +50,7 @@ From: mpich.simg
    # git clone https://github.com/hpc/libcircle.git
    git clone https://github.com/JulianKunkel/libcircle.git
    cd libcircle
-   # git checkout tags/0.2.1-rc.1
-   # ./autogen.sh
-   # cp /configure_libcircle ./configure
    ./configure --prefix=/usr
-   #--with-dtcmp=/usr
    make
    make install
    cd ..
@@ -69,10 +60,7 @@ From: mpich.simg
 
    # build mpifileutils
    echo install mpifileutils
-   # ln -s /usr/lib64/libarchive.so.13.1.2 /usr/lib64/libarchive.so
    ./autogen.sh
-   # CFLAGS='-I/usr/include -Wundef -Wunused-variable -Wsign-conversion -Wformat-nonliteral -Wconversion'
-   # LDFLAGS='-L/usr/lib64 -L/usr/lib -lcircle -larchive'
    env | sort
    CC=mpicc CXX=mpicxx ./configure --prefix=$PWD/install --enable-lustre
    make V=1
