@@ -32,9 +32,5 @@ From: centos
    cd /mpitestapp
    mpicc -o pi -fPIC pi.c
 
-%environment
-   PATH=/mpich/install/bin:$PATH
-   LD_LIBRARY_PATH=/mpich/install/lib:$LD_LIBRARY_PATH
-
 %runscript
    /mpitestapp/pi
