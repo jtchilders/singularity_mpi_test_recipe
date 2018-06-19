@@ -1,31 +1,36 @@
-Bootstrap: shub
-From: jtchilders/singularity_mpi_test_recipe:openmpi
+Bootstrap: localimage
+From: mpich.simg
+
+%setup
+   cp configure_libcircle ${SINGULARITY_ROOTFS}/
 
 %post
    # need wget
-   yum install -y cmake openssl-devel wget libattr-devel
-
-   env | sort
-
+   echo installing yum packages
+   yum install -y cmake openssl-devel wget libattr-devel libarchive-devel
+   export LD_LIBRARY_PATH=/mpifileutils/install/lib:/mpich/install/lib:/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:/lib64:/lib
+   export PATH=/mpifileutils/install/bin:/mpich/install/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
+   export PKG_CONFIG_PATH=/lib64/pkgconfig:/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/lib/pkgconfig
+   export libcircle_CFLAGS='-I/usr/include'
+   export libcircle_LIBS='-L/usr/lib64 -L/usr/lib -lcircle'
+   # export CFLAGS='-I/usr/include'
+   # export CXXFLAGS='-I/usr/include'
+   env
+   
    # build mpifileutils dependencies
+   echo checking out mpifileutils
    mkdir /mpifileutils
    cd /mpifileutils
    git clone https://github.com/hpc/mpifileutils.git .
-   git checkout tags/v0.7
+   # git checkout tags/v0.7
    
+   echo creating dependency directory
    mkdir deps
    cd deps
    
-   # install libcircle-0.2.1-rc.1
-   git clone https://github.com/hpc/libcircle.git
-   cd libcircle
-   git checkout tags/0.2.1-rc.1
-   ./configure --prefix=/usr
-   make
-   make install
-   cd ..
-   
+      
    # install lwgrp-1.0.2
+   echo checkout/install lwgrp
    git clone https://github.com/LLNL/lwgrp.git
    cd lwgrp
    git checkout tags/v1.0.2
@@ -34,34 +39,42 @@ From: jtchilders/singularity_mpi_test_recipe:openmpi
    make install
    cd ..
 
-   # install dtcmp-1.0.3
+   # install dtcmp
+   echo checkout/install dtcmp
    git clone https://github.com/LLNL/dtcmp.git
    cd dtcmp
    git checkout tags/v1.0.3
+   ./autogen.sh
    ./configure --prefix=/usr --with-lwgrp=/usr
    make
    make install
    cd ..
+
+   # install libcircle-0.2.1-rc.1
+   echo checkout/install libcircle
+   # git clone https://github.com/hpc/libcircle.git
+   git clone https://github.com/JulianKunkel/libcircle.git
+   cd libcircle
+   # git checkout tags/0.2.1-rc.1
+   # ./autogen.sh
+   # cp /configure_libcircle ./configure
+   ./configure --prefix=/usr
+   #--with-dtcmp=/usr
+   make
+   make install
+   cd ..
+
    
    cd /mpifileutils
 
    # build mpifileutils
-   ln -s /usr/lib64/libarchive.so.13.1.2 /usr/lib64/libarchive.so
-   export libarchive_CFLAGS=-I/usr/include
-   export libarchive_LIBS="-L/usr/lib64 -L/usr/lib -larchive"
-   export libcircle_CFLAGS=-I/usr/include
-   export libcircle_LIBS="-L/usr/lib64 -L/usr/lib -lcircle"
+   echo install mpifileutils
+   # ln -s /usr/lib64/libarchive.so.13.1.2 /usr/lib64/libarchive.so
    ./autogen.sh
-   export CFLAGS="-g -O0 -I/mpifileutils/src/common -DDCOPY_USE_XATTRS -Wunused-variable -Wunused-parameter"
-   export LDFLAGS="-L/mpifileutils/install/lib -lcircle"
-   CC=mpicc ./configure --prefix=$PWD/install --enable-lustre
+   # CFLAGS='-I/usr/include -Wundef -Wunused-variable -Wsign-conversion -Wformat-nonliteral -Wconversion'
+   # LDFLAGS='-L/usr/lib64 -L/usr/lib -lcircle -larchive'
+   env | sort
+   CC=mpicc CXX=mpicxx ./configure --prefix=$PWD/install --enable-lustre
    make V=1
    make install
 
-   
-   
-
-%environment
-   export LD_LIBRARY_PATH=/mpifileutils/install/lib:/openmpi/install/lib:/usr/local/lib64:/usr/local/lib:/usr/lib64:/usr/lib:/lib64:/lib
-   export PATH=/mpifileutils/install/bin:/openmpi/install/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
-   export PKG_CONFIG_PATH=/lib64/pkgconfig:/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/lib/pkgconfig
