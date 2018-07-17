@@ -1,0 +1,29 @@
+Bootstrap: shub
+From: jtchilders/singularity_mpi_test_recipe:mpich
+
+%setup
+   # create directory for installation
+   mkdir -p ${SINGULARITY_ROOTFS}/gcc
+
+% environment
+   # setup environment
+
+%post
+   # install dev tools
+   yum update -y
+   yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+   yum group install -y "Development Tools"
+   yum install -y wget which
+   # install gcc dev tools:
+   yum install -y gmp-devel mpfr-devel libmpc-devel glibc-devel.i686 libgcc.i686 gcc-c++
+   # install newer GCC
+   cd gcc
+   wget https://ftp.gnu.org/gnu/gcc/gcc-6.3.0/gcc-6.3.0.tar.gz
+   tar xf gcc-6.3.0.tar.gz
+   mkdir build
+   cd build
+   /gcc/gcc-6.3.0/configure --prefix=/gcc/install
+   make
+   make install
+  
+  
