@@ -36,6 +36,7 @@ From: intelpython/intelpython3_full:latest
    export PATH=$PATH:/mpich/install/bin
    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mpich/install/lib
    
+   export PATH=/opt/conda/bin:$PATH
    export PYTHONPATH=/opt/conda/lib/python3.6/site-packages
    cd /horovod
    HOROVOD_WITHOUT_PYTORCH=1 HOROVOD_WITH_TENSORFLOW=1 python setup.py build
