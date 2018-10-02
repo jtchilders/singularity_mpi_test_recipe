@@ -13,9 +13,6 @@ From: intelpython/intelpython3_full:latest
    # env | sort
    # cd /uselocalmpi
    # mpicc -o pi -fPIC pi.c
-
+   export PATH=/opt/conda/bin:$PATH
    conda install -y keras
-
-%runscript
-   python
 
