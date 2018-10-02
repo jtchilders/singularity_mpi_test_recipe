@@ -22,6 +22,7 @@ From: intelpython/intelpython3_full:latest
    # yum install -y gcc-c++
    apt-get update
    apt-get install build-essential --assume-yes
+   apt-get install gcc g++ gfortran --assume-yes
 
    
    # install MPICH
@@ -29,7 +30,7 @@ From: intelpython/intelpython3_full:latest
    # disable the addition of the RPATH to compiled executables
    # this allows us to override the MPI libraries to use those
    # found via LD_LIBRARY_PATH
-   ./configure CC=/usr/bin/cc CXX=/usr/bin/c++ FCC=/usr/bin/gfortran --prefix=/mpich/install --disable-wrapper-rpath
+   ./configure --prefix=/mpich/install --disable-wrapper-rpath
    make -j 4 install
    # add to local environment to build pi.c
    export PATH=$PATH:/mpich/install/bin
