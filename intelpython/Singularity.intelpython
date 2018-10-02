@@ -16,17 +16,17 @@ From: intelpython/intelpython3_full:latest
 
 %post
    # install development tools
-   yum update -y
-   yum groupinstall -y "Development Tools"
-   yum install -y gcc
-   yum install -y gcc-c++
+   # yum update -y
+   # yum groupinstall -y "Development Tools"
+   # yum install -y gcc
+   # yum install -y gcc-c++
    
    # install MPICH
    cd /mpich
    # disable the addition of the RPATH to compiled executables
    # this allows us to override the MPI libraries to use those
    # found via LD_LIBRARY_PATH
-   ./configure --prefix=/mpich/install --disable-wrapper-rpath
+   ./configure CC=/usr/bin/cc CXX=/usr/bin/c++ --prefix=/mpich/install --disable-wrapper-rpath
    make -j 4 install
    # add to local environment to build pi.c
    export PATH=$PATH:/mpich/install/bin
