@@ -1,0 +1,21 @@
+Bootstrap: shub
+From: intelpython/intelpython3_full:latest
+
+%setup
+   # make directory for test MPI program
+   # mkdir ${SINGULARITY_ROOTFS}/uselocalmpi
+   # cp pi.c ${SINGULARITY_ROOTFS}/uselocalmpi/
+
+%post
+   # add to local environment to build pi.c
+   # export PATH=$PATH:/mpich/install/bin
+   # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mpich/install/lib
+   # env | sort
+   # cd /uselocalmpi
+   # mpicc -o pi -fPIC pi.c
+
+   conda install -y keras
+
+%runscript
+   python
+
