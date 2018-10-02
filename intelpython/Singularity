@@ -1,4 +1,4 @@
-Bootstrap: shub
+Bootstrap: docker
 From: intelpython/intelpython3_full:latest
 
 %setup
