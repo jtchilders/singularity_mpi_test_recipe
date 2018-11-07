@@ -1,0 +1,9 @@
+Bootstrap: docker
+From: centos
+
+%post
+   # install development tools
+   yum update -y
+   yum install -y centos-release-scl
+   yum install -y devtoolset-6
+
