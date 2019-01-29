@@ -2,6 +2,9 @@ Bootstrap: shub
 From: jtchilders/singularity_mpi_test_recipe:mpich
 
 %setup
+   mkdir ${SINGULARITY_ROOTFS}/test
+   cp keras_mnist.py ${SINGULARITY_ROOTFS}/test
+   cp download_mnist.sh ${SINGULARITY_ROOTFS}/test
 
 %post
    # install development tools
@@ -19,13 +22,12 @@ From: jtchilders/singularity_mpi_test_recipe:mpich
    #  miniconda install
    ############
 
-
-   mkdir /conda
+   
    
    # change this if you want different versions
    CONDAVER=3
    VERSION=4.5.12
-   BASE_DIR=$PWD/miniconda$CONDAVER
+   BASE_DIR=/miniconda$CONDAVER
    PREFIX_PATH=$BASE_DIR/$VERSION
    DOWNLOAD_PATH=$BASE_DIR/DOWNLOADS
 
@@ -71,4 +73,9 @@ From: jtchilders/singularity_mpi_test_recipe:mpich
    echo install horovod
    pip install horovod
 
+%environment
+   export PATH=/miniconda3/4.5.12/bin:$PATH
+
+%runscript
+   python /test/keras_mnist.py
 
