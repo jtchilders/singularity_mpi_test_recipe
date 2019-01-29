@@ -1,4 +1,4 @@
-Bootstrap: docker
+Bootstrap: shub
 From: jtchilders/singularity_mpi_test_recipe:mpich
 
 %setup
