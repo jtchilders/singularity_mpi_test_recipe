@@ -6,10 +6,9 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl16
    # setup devtoolset6
    scl enable devtoolset-6 bash
    echo make alias for python 3.6
-   # alias python3.6
-   rm /usr/bin/python
-   ln -s /usr/bin/python3.6 /usr/bin/python
-   ln -s /usr/bin/pip3.6 /usr/bin/pip
+
+   yum install -y git
+   
    
    export JAVA_VERSION=1.8
 
@@ -56,6 +55,7 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl16
    # export CC_OPT_FLAGS="-march=native" 
    
    echo running configuration of tensorflow
+   ls
    ./configure
 
    echo building tensorflow $TF_TAGS
