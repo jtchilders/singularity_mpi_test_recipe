@@ -1,5 +1,5 @@
 Bootstrap: shub
-From: jtchilders/singularity_mpi_test_recipe:dvs6_py36
+From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi
 
 %post
    echo setting up devtoolset6
