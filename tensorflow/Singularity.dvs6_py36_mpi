@@ -2,10 +2,11 @@ Bootstrap: shub
 From: jtchilders/singularity_mpi_test_recipe:dvs6_py36
 
 %post
-   yum install -y wget
+   yum install -y wget git
    echo setting up devtoolset6
    # setup devtoolset6
    scl enable devtoolset-6 bash
+
    echo make alias for python 3.6
    # alias python3.6
    rm /usr/bin/python
