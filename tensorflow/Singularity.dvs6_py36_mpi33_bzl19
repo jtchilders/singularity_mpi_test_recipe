@@ -5,7 +5,6 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi
    echo setting up devtoolset6
    # setup devtoolset6
    scl enable devtoolset-6 bash
-   echo make alias for python 3.6
    
    export JAVA_VERSION=1.8
    BAZEL_VERSION=0.19.0
