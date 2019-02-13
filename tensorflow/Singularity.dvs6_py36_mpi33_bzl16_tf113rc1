@@ -6,7 +6,7 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl16
    # setup devtoolset6
    scl enable devtoolset-6 bash
    echo make alias for python 3.6
-   /usr/bin/python2.7 yum install -y git
+   /usr/bin/python2.7 /usr/bin/yum install -y git
    
    
    export JAVA_VERSION=1.8
