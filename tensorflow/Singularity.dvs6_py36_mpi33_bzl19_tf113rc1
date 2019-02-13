@@ -1,5 +1,5 @@
 Bootstrap: shub
-From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl16
+From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl19
 
 %post
    echo setting up devtoolset6
@@ -20,7 +20,7 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl16
    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mpich/install/lib
    
    TF_TAG=v1.13.0-rc1
-   BAZEL_VERSION=0.16.0
+   BAZEL_VERSION=0.19.0
    echo checking out tensorflow $TF_TAG and building
    mkdir /tensorflow
    cd /tensorflow

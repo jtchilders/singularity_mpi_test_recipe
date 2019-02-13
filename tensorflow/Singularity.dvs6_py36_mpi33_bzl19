@@ -10,7 +10,7 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi
    export JAVA_VERSION=1.8
    BAZEL_VERSION=0.19.0
 
-   echo checking out and building bazel version 0.16.0
+   echo checking out and building bazel version $BAZEL_VERSION
    mkdir /bazel
    cd /bazel
    wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-dist.zip
