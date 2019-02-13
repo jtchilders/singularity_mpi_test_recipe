@@ -1,0 +1,25 @@
+Bootstrap: shub
+From: jtchilders/singularity_mpi_test_recipe:dvs6_py36
+
+%post
+   echo setting up devtoolset6
+   # setup devtoolset6
+   scl enable devtoolset-6 bash
+   echo make alias for python 3.6
+   # alias python3.6
+   rm /usr/bin/python
+   ln -s /usr/bin/python3.6 /usr/bin/python
+   ln -s /usr/bin/pip3.6 /usr/bin/pip
+   
+   MPICH_VERSION=3.3
+   echo installing mpich $MPICH_VERSION
+
+   mkdir /mpich
+   cd /mpich
+   http://www.mpich.org/static/downloads/$MPICH_VERSION/mpich-$MPICH_VERSION.tar.gz
+   tar xf mpich-$MPICH_VERSION.tar.gz --strip-components=1
+   ./configure --prefix=/mpich/install --disable-wrapper-rpath
+   make -j 4 install
+   
+
+
