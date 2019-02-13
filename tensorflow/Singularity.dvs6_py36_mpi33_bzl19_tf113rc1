@@ -7,12 +7,7 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl19
    # setup devtoolset6
    scl enable devtoolset-6 bash
    export PYTHONPATH=
-   echo install git
-   rm /usr/bin/python
-   ln -s /usr/bin/python2.7 /usr/bin/python
-   yum install -y git
-   rm /usr/bin/python
-   ln -s /usr/bin/python3.6 /usr/bin/python
+   
    
    export JAVA_VERSION=1.8
 

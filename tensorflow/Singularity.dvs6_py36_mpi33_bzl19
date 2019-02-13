@@ -14,10 +14,8 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi
    cd /bazel
    wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-dist.zip
    mkdir bazel-$BAZEL_VERSION
-   cd bazel-$BASEL_VERSION
-   mv ../bazel-$BASEL_VERSION-dist.zip ./
-
-   unzip bazel-$BASEL_VERSION-dist.zip
-   bash ./compile.sh
+   cd bazel-$BAZEL_VERSION
+   unzip ../bazel-$BAZEL_VERSION-dist.zip
+   ./compile.sh
    echo done building bazel container
 
