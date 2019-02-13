@@ -58,11 +58,11 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl16
    # export CC_OPT_FLAGS="-march=native" 
    
    echo running configuration of tensorflow
-   ls
+   export PATH=$PATH:/bazel/bazel-$BAZEL_VERSION/output
    ./configure
 
    echo building tensorflow $TF_TAG
-   /bazel/bazel-$BAZEL_VERSION/output/bazel build --config=mkl -c opt --copt=-g --strip=never  --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mavx512f --copt=-mavx512pf --copt=-mavx512cd --copt=-mavx512er --copt='-mtune=knl' --copt="-DEIGEN_USE_VML" //tensorflow/tools/pip_package:build_pip_package
+   bazel build --config=mkl -c opt --copt=-g --strip=never  --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mavx512f --copt=-mavx512pf --copt=-mavx512cd --copt=-mavx512er --copt='-mtune=knl' --copt="-DEIGEN_USE_VML" //tensorflow/tools/pip_package:build_pip_package
 
    mkdir ../tf_wheels
 
