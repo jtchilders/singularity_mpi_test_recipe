@@ -2,7 +2,7 @@ Bootstrap: shub
 From: jtchilders/singularity_mpi_test_recipe:dvs6_py36
 
 %post
-   yum install -y wget git
+   yum install -y wget git patch
    echo setting up devtoolset6
    # setup devtoolset6
    scl enable devtoolset-6 bash
