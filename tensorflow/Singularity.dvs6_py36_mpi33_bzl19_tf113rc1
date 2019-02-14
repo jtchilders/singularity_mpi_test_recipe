@@ -7,8 +7,7 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl19
    # setup devtoolset6
    scl enable devtoolset-6 bash
    export PYTHONPATH=
-   
-   
+    
    export JAVA_VERSION=1.8
 
    # adding mpich to env
