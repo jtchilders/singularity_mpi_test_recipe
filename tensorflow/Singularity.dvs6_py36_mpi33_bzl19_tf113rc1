@@ -48,10 +48,11 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl19
    export TF_NEED_OPENCL_SYCL=0
    export TF_NEED_S3=0
    export TF_NEED_VERBS=0
+   export TF_NEED_ROCM=0
    export TF_SET_ANDROID_WORKSPACE=0
 
    export GCC_HOST_COMPILER_PATH=$(which gcc)
-   # export CC_OPT_FLAGS="-march=native" 
+   export CC_OPT_FLAGS="-march=native" 
    
    echo running configuration of tensorflow
    export PATH=$PATH:/bazel/bazel-$BAZEL_VERSION/output
