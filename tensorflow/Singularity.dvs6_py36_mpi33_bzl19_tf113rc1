@@ -44,7 +44,7 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl19
    export TF_NEED_JEMALLOC=0
    export TF_NEED_KAFKA=0
    export TF_NEED_MKL=0
-   export TF_NEED_MPI=1
+   export TF_NEED_MPI=0
    export MPI_HOME=/mpich/install
    export TF_NEED_OPENCL=0
    export TF_NEED_OPENCL_SYCL=0
