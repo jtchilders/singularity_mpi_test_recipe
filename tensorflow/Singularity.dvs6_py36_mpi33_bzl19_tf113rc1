@@ -14,6 +14,9 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl19
    # adding mpich to env
    export PATH=$PATH:/mpich/install/bin
    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mpich/install/lib
+
+   echo installing intel-numpy
+   pip install intel-numpy intel-scipy
    
    TF_TAG=v1.13.0-rc1
    BAZEL_VERSION=0.19.0
