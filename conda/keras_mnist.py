@@ -1,5 +1,8 @@
 from __future__ import print_function
-import time
+import time,sys
+for path in sys.path:
+   if path.startswith('/home/parton/'):
+      sys.path.remove(path)
 start_time = time.time()
 import keras
 from keras.datasets import mnist
@@ -10,15 +13,40 @@ from keras import backend as K
 import math
 import tensorflow as tf
 import horovod.keras as hvd
-from mpi4py import MPI
 
-
-rank = MPI.COMM_WORLD.Get_rank()
-nranks = MPI.COMM_WORLD.Get_size()
-print('mpi rank %s of %s; import time: %10.4f' % (rank,nranks,time.time() - start_time))
+import_time = time.time()
 
 # Horovod: initialize Horovod.
 hvd.init()
+
+init_time = time.time()
+
+rank = hvd.rank()
+nranks = hvd.size()
+print('mpi rank %s of %s; import time: %10.4f %10.4f %10.4f' % (rank,nranks,import_time - start_time,init_time - start_time,time.time() - start_time))
+
+if rank == 0:
+
+   print('path: %s' % sys.path)
+   for module in sys.modules:
+       try:
+           if 'miniconda3' in sys.modules[module].__file__: continue
+           print(module,sys.modules[module].__file__)
+           print(module,sys.modules[module].__version__)
+       except:
+           try:
+               if  type(modules[module].version) is str:
+                   print(module,sys.modules[module].version)
+               else:
+                   print(module,sys.modules[module].version())
+           except:
+               try:
+                   print(module,sys.modules[module].VERSION)
+               except:
+                   pass
+
+
+sys.exit(0)
 
 # Horovod: pin GPU to be used to process local rank (one GPU per process)
 config = tf.ConfigProto()
@@ -51,7 +79,7 @@ x_train = x_train.astype('float32')
 x_test = x_test.astype('float32')
 x_train /= 255
 x_test /= 255
-if hvd.local_rank() == 0:
+if rank == 0:
    print('x_train shape:', x_train.shape)
    print(x_train.shape[0], 'train samples')
    print(x_test.shape[0], 'test samples')
@@ -90,8 +118,8 @@ callbacks = [
 ]
 
 # Horovod: save checkpoints only on worker 0 to prevent other workers from corrupting them.
-if hvd.rank() == 0:
-    callbacks.append(keras.callbacks.ModelCheckpoint('./checkpoint-{epoch}.h5'))
+#if hvd.rank() == 0:
+#    callbacks.append(keras.callbacks.ModelCheckpoint('/tmp/checkpoint-{epoch}.h5'))
 
 model.fit(x_train, y_train,
           batch_size=batch_size,
@@ -100,6 +128,6 @@ model.fit(x_train, y_train,
           verbose=1,
           validation_data=(x_test, y_test))
 score = model.evaluate(x_test, y_test, verbose=0)
-if hvd.local_rank() == 0:
+if rank == 0:
    print('Test loss:', score[0])
    print('Test accuracy:', score[1])

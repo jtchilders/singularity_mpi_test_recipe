@@ -16,7 +16,7 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl19
    echo installing intel-numpy
    pip install intel-numpy intel-scipy
    
-   TF_TAG=v1.13.0-rc1
+   TF_TAG=v1.13.1
    BAZEL_VERSION=0.19.0
    echo checking out tensorflow $TF_TAG and building
    mkdir /tensorflow

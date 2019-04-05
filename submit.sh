@@ -2,7 +2,7 @@
 #COBALT -t 30
 #COBALT -q debug-cache-quad
 #COBALT -n 2
-#COBALT -A <project>
+#COBALT -A datascience
 
 # app build with GNU not Intel
 module swap PrgEnv-intel PrgEnv-gnu
@@ -22,4 +22,4 @@ echo $SINGULARITYENV_LD_LIBRARY_PATH
 # this simply runs the command 'ldd /myapp/pi' inside the container and should show that
 # the app is running agains the host machines Cray libmpi.so not the one inside the container
 # run my contianer like an application, which will run '/myapp/pi'
-aprun -n 8 -N 4 singularity run -B /opt:/opt:ro -B /var/opt:/var/opt:ro myimage.simg
+aprun -n 8 -N 4 singularity run -B /opt:/opt:ro -B /var/opt:/var/opt:ro myimage_derived.simg
