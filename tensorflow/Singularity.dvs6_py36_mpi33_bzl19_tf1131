@@ -15,9 +15,11 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl19
 
    echo installing intel-numpy
    pip install intel-numpy intel-scipy
+   pip install --upgrade --no-deps keras-applications keras-preprocessing wheel
    
    TF_TAG=v1.13.1
    BAZEL_VERSION=0.19.0
+   
    echo checking out tensorflow $TF_TAG and building
    mkdir /tensorflow
    cd /tensorflow
@@ -30,8 +32,8 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl19
    export CI_BUILD_PYTHON=python3.6
    export PYTHON_BIN_PATH=$(which python3.6)
    export PYTHON_LIB_PATH="$($PYTHON_BIN_PATH -c 'import site; print(site.getsitepackages()[0])')"
-   export PYTHONPATH=${TF_ROOT}/lib
-   export PYTHON_ARG=${TF_ROOT}/lib
+   export PYTHONPATH=$PYTHON_LIB_PATH
+   export PYTHON_ARG=$PYTHON_LIB_PATH
    export TF_CUDA_CLANG=0
    export TF_DOWNLOAD_CLANG=0
    export TF_DOWNLOAD_MKL=0
@@ -60,7 +62,7 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl19
    ./configure
 
    echo building tensorflow $TF_TAG
-   bazel build --config=mkl -c opt --copt=-g --strip=never  --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mavx512f --copt=-mavx512pf --copt=-mavx512cd --copt=-mavx512er --copt='-mtune=knl' --copt='-march=knl' --copt="-DEIGEN_USE_VML" //tensorflow/tools/pip_package:build_pip_package
+   bazel build --config=mkl --config=monolithic --copt=-g --strip=never  --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mavx512f --copt=-mavx512pf --copt=-mavx512cd --copt=-mavx512er --copt='-mtune=knl' --copt='-march=knl' --copt="-DEIGEN_USE_VML" //tensorflow/tools/pip_package:build_pip_package
 
    mkdir ../tf_wheels
 
