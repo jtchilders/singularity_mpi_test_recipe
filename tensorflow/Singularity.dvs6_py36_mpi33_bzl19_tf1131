@@ -63,6 +63,19 @@ From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi33_bzl19
 
    echo building tensorflow $TF_TAG
    bazel build --config=mkl --config=monolithic --copt=-g --strip=never  --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mavx512f --copt=-mavx512pf --copt=-mavx512cd --copt=-mavx512er --copt='-mtune=knl' --copt='-march=knl' --copt="-DEIGEN_USE_VML" //tensorflow/tools/pip_package:build_pip_package
+   
+   if [ ! $? -eq 0 ]; then
+      echo downloading Eigen fixes
+      wget https://raw.githubusercontent.com/markdryan/eigen-git-mirror/tf1.13/Eigen/src/Core/arch/AVX512/Complex.h
+      wget https://raw.githubusercontent.com/markdryan/eigen-git-mirror/tf1.13/Eigen/src/Core/arch/AVX512/PacketMath.h
+      
+      echo copying to build dir
+      cp Complex.h bazel-$TF_VERSION/external/eigen_archive/Eigen/src/Core/arch/AVX512/
+      cp PacketMath.h bazel-$TF_VERSION/external/eigen_archive/Eigen/src/Core/arch/AVX512/
+      
+      echo restarting build
+      bazel build --config=mkl --config=monolithic --copt=-g --strip=never  --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-mavx512f --copt=-mavx512pf --copt=-mavx512cd --copt=-mavx512er --copt='-mtune=knl' --copt='-march=knl' --copt="-DEIGEN_USE_VML" //tensorflow/tools/pip_package:build_pip_package
+   fi
 
    mkdir ../tf_wheels
 
