@@ -1,0 +1,22 @@
+Bootstrap: shub
+From: jtchilders/singularity_mpi_test_recipe:dvs6_py36_mpi
+
+%post
+   echo setting up devtoolset6
+   # setup devtoolset6
+   scl enable devtoolset-6 bash
+   
+   export JAVA_VERSION=1.8
+   BAZEL_VERSION=0.24.1
+
+
+   echo checking out and building bazel version $BAZEL_VERSION
+   mkdir /bazel
+   cd /bazel
+   wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-dist.zip
+   mkdir bazel-$BAZEL_VERSION
+   cd bazel-$BAZEL_VERSION
+   unzip ../bazel-$BAZEL_VERSION-dist.zip
+   ./compile.sh
+   echo done building bazel container
+
