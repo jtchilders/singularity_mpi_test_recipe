@@ -5,7 +5,7 @@ From: jtchilders/singularity_mpi_test_recipe:dvs8_py36
    yum install -y wget git patch
    echo setting up devtoolset6
    # setup devtoolset6
-   scl enable devtoolset-6 bash
+   scl enable devtoolset-8 bash
 
    echo make alias for python 3.6
    # alias python3.6
